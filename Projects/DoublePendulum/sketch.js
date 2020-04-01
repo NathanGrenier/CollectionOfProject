@@ -15,12 +15,6 @@ let m2 = 20;
 let a1 = PI /2; // Starts at 90 DEGREES
 let a2 = PI /2; // Starts at 90 DEGREES
 
-// Position of pendulum
-let x1;
-let y1;
-let x2;
-let y2;
-
 // Velocity of pendulum
 let a1_v = 0;
 let a2_v = 0;
@@ -81,36 +75,25 @@ function draw() {
 	a2 += a2_v;
 	
 	image(pg, 0, 0);
-
-	x1 = r1 * sin(a1);
-	y1 = r1 * cos(a1);
-
-	x2 = x1 + r2 * sin(a2);
-	y2 = y1 + r2 * cos(a2);
-
-	translate(cx, cy);
-
 	
-	// Pendulum 1
-	push();
-	stroke('black');
-	strokeWeight(2);
-	fill('black');	
-	
-	line(0, 0, x1, y1);
-	ellipse(x1, y1, m1);
-	pop();
-	
-	// Pendulum 2
-	push();
 	stroke('black');
 	strokeWeight(2);
 	fill('black');
 
+	translate(cx, cy);
+
+	let x1 = r1 * sin(a1);
+	let y1 = r1 * cos(a1);
+
+	let x2 = x1 + r2 * sin(a2);
+	let y2 = y1 + r2 * cos(a2);
+
+	line(0, 0, x1, y1);
+	ellipse(x1, y1, m1);
+
 	line(x1, y1, x2, y2);
 	ellipse(x2, y2, m2);
-	pop();
-	
+
 	pg.push();
 	pg.translate(cx, cy);
 	pg.strokeWeight(2);
@@ -122,24 +105,4 @@ function draw() {
 
 	px2 = x2;
 	py2 = y2;
-}
-
-function mouseDragged() {
-	let d1 = distanceToPendulum(x1, y1);
-	let d2 = distanceToPendulum(x2, y2);
-
-	let a = atan2(mouseY - height / 2, mouseX - width / 2);
-
-	if (d1 > d2 ){
-		a1 += a;
-	} else {
-		a2 += a;
-	}
-}
-
-function distanceToPendulum(x, y) {
-	let deltaX = mouseX - (x + cx); 
-	let deltaY = mouseY - (y + cy);
-
-	return sqrt(sq(deltaX) + sq(deltaY));
 }
