@@ -5,7 +5,7 @@ let cx;
 let cy; 
 
 // coefficient of friction
-let mu = 0.999
+let mu = 0.8
 
 // Length, mass and angle of pendulum
 let r1 = 140;
@@ -35,6 +35,10 @@ let py2;
 // Background (used to draw trail)
 let pg;
 
+
+let p1;
+let pa = 0;
+
 function setup() {
 	createCanvas(windowWidth, windowHeight);
 	pg = createGraphics(width, height);
@@ -46,6 +50,99 @@ function setup() {
 }
 
 function draw() {
+	image(pg, 0, 0);
+
+	calculations();
+	sketchPendulum();
+	sketchTrail();
+
+	px2 = x2;
+	py2 = y2;
+}
+
+function mouseClicked() {
+	let d1 = distanceToPendulum(x1, y1);
+	let d2 = distanceToPendulum(x2, y2);
+
+	if (d1 > d2) {
+		p1 = true;
+	}
+}
+
+function mouseDragged() {
+	noLoop(); 
+	
+	let a = atan2(mouseY - height / 2, mouseX - width / 2);
+
+	let j = a - pa;
+	if (p1){
+		a1 += j;
+		a1_v = 0;
+		a2_v = 0;
+		a1_a = 0;
+		a2_a = 0;
+		//calculations();
+		//sketchPendulum();
+	} else {
+		a2 += j;
+		a1_v = 0;
+		a2_v = 0;
+		a1_a = 0;
+		a2_a = 0;
+		//calculations();
+		//sketchPendulum();
+	}
+	pa = a
+	console.log(j);
+}
+
+function mouseReleased() {
+	loop();
+}
+
+function distanceToPendulum(x, y) {
+	let deltaX = mouseX - (x + cx); 
+	let deltaY = mouseY - (y + cy);
+
+	return sqrt(sq(deltaX) + sq(deltaY));
+}
+
+function sketchPendulum() {
+	translate(cx, cy);
+	
+	// Pendulum 1
+	push();
+	stroke('black');
+	strokeWeight(2);
+	fill('black');	
+	
+	line(0, 0, x1, y1);
+	ellipse(x1, y1, m1);
+	pop();
+	
+	// Pendulum 2
+	push();
+	stroke('black');
+	strokeWeight(2);
+	fill('black');
+
+	line(x1, y1, x2, y2);
+	ellipse(x2, y2, m2);
+	pop();
+}
+
+function sketchTrail() {
+	pg.push();
+	pg.translate(cx, cy);
+	pg.strokeWeight(2);
+	pg.stroke('black');
+	if (frameCount > 1) {
+		pg.line(px2, py2, x2, y2);
+	}
+	pg.pop();
+}
+
+function calculations() {
 	// Calculating the acceleraion of the double pendulum (see: https://www.myphysicslab.com/pendulum/double-pendulum-en.html)
 	let num1 = -g * (2 * m1 + m2) * sin(a1);
 	let num2 = -m2 * g * sin(a1 - 2 * a2);
@@ -73,73 +170,16 @@ function draw() {
 	a2_v += a2_a;
 
 	// Velocity affected by friction
-	//a1_v *= mu;
-	//a2_v *= mu;
+	a1_v *= mu;
+	a2_v *= mu;
 	
 	// Position changed by velocity of pendulum
 	a1 += a1_v;
 	a2 += a2_v;
-	
-	image(pg, 0, 0);
 
 	x1 = r1 * sin(a1);
 	y1 = r1 * cos(a1);
 
 	x2 = x1 + r2 * sin(a2);
 	y2 = y1 + r2 * cos(a2);
-
-	translate(cx, cy);
-
-	
-	// Pendulum 1
-	push();
-	stroke('black');
-	strokeWeight(2);
-	fill('black');	
-	
-	line(0, 0, x1, y1);
-	ellipse(x1, y1, m1);
-	pop();
-	
-	// Pendulum 2
-	push();
-	stroke('black');
-	strokeWeight(2);
-	fill('black');
-
-	line(x1, y1, x2, y2);
-	ellipse(x2, y2, m2);
-	pop();
-	
-	pg.push();
-	pg.translate(cx, cy);
-	pg.strokeWeight(2);
-	pg.stroke('black');
-	if (frameCount > 1) {
-		pg.line(px2, py2, x2, y2);
-	}
-	pg.pop();
-
-	px2 = x2;
-	py2 = y2;
-}
-
-function mouseDragged() {
-	let d1 = distanceToPendulum(x1, y1);
-	let d2 = distanceToPendulum(x2, y2);
-
-	let a = atan2(mouseY - height / 2, mouseX - width / 2);
-
-	if (d1 > d2 ){
-		a1 += a;
-	} else {
-		a2 += a;
-	}
-}
-
-function distanceToPendulum(x, y) {
-	let deltaX = mouseX - (x + cx); 
-	let deltaY = mouseY - (y + cy);
-
-	return sqrt(sq(deltaX) + sq(deltaY));
 }
