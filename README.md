@@ -1,2 +1,2 @@
-# MineSweeper
-Attempt at making a bad version of Mine Sweeper
+# Collection of Projects
+A collection of beginer projects
