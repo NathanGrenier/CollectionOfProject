@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Home</title>
+    <!--
+        <script src="libraries/p5.js"></script>
+        <script src="libraries/p5.dom.js"></script>
+        <script src="libraries/p5.sound.js"></script>
+    -->
+        <script src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+        <script src="sketch.js"></script>
+
+        <style>
+            html {
+                height: 100%;
+            }
+            body {
+                margin:0;
+                padding:0;
+                overflow: hidden;
+                height: 100%;
+            }
+            .navbar {
+                display:flex;
+                flex-direction: row;
+            }
+            .main {
+                display:flex;
+                flex-direction: column;
+                height: 100%;
+                max-height: 100%;
+            }
+            .navbar > a {
+                display: flex;
+                font-family:Helvetica Neue, Helvetica, sans-serif;
+                background:#123;
+                color: #9ab;
+                text-transform:uppercase;
+                font-weight:bolder;
+                text-align: center;
+                text-decoration: none;
+                border: 1px rgba(0, 0, 0, 0.664) solid;
+                padding: 10px;
+                flex: 1;
+             }
+             .main > div {
+                display: flex;
+                border: 1px #ccc solid;
+                padding: 10px;
+                flex: 1;
+             }
+             .navbar > a:hover {
+                background: #126;
+                color:#adf;
+                transition:all 0.3s linear;
+             }
+        </style>
+    </head>
+    <body>
+        <div class="navbar">
+            <a href="index.html">Home</a>
+            <a href="CC_DoublePendulum/double_pendulum.html">Double Pendulum</a>
+        </div>
+        <div class="main">
+            <div class="flex_canvas">
+            </div>
+        </div>
+    </body>
+</html>

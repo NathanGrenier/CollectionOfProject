@@ -5,7 +5,7 @@ let cx;
 let cy; 
 
 // coefficient of friction
-let mu = 0.8
+let mu = 1
 
 // Length, mass and angle of pendulum
 let r1 = 140;
