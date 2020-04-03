@@ -39,17 +39,44 @@ let pg;
 let p1;
 let pa = 0;
 
+function getWindowWidth(element) {
+	return element.clientWidth;
+}
+
+function getWindowHeight(element) {
+	return element.clientHeight;
+}
+
 function setup() {
-	createCanvas(windowWidth, windowHeight);
+	// Get flex_canvas div's height and width
+	let divWidth = flex_canvas.clientWidth;
+	let divHeight = flex_canvas.clientHeight;
+	
+	// Create canvas and background
+	let myCanvas = createCanvas(divWidth, divHeight);
 	pg = createGraphics(width, height);
 
 	cx = width / 2;
 	cy = 200;
 	
-	pg.background('white');
+	pg.background('white');	
+
+	// Apply canvas to flex_canvas div
+	myCanvas.parent("flex_canvas");
 }
 
-function draw() {
+function windowResized() {
+	let flex_canvas = document.getElementById("flex_canvas");
+	let divWidth = flex_canvas.clientWidth;
+	let divHeight = flex_canvas.clientHeight;
+	resizeCanvas(divWidth, divHeight);
+	console.log(divWidth);
+	console.log(divHeight);
+	console.log("This:" + getWindowWidth(flex_canvas));
+	console.log("That:" + getWindowHeight(flex_canvas));
+}
+
+  function draw() {
 	image(pg, 0, 0);
 
 	calculations();

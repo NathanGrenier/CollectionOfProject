@@ -1,0 +1,40 @@
+html {
+    height: 100%;
+}
+body {
+    margin:0;
+    padding:0;
+    overflow: hidden;
+    height: 100%;
+}
+.navbar {
+    display:flex;
+    flex-direction: row;
+}
+.main {
+    display:flex;
+    flex-direction: column;
+    height: 100%;
+}
+.navbar > a {
+    display: flex;
+    font-family:Helvetica Neue, Helvetica, sans-serif;
+    background:#123;
+    color: #9ab;
+    text-transform:uppercase;
+    font-weight:bolder;
+    text-align: center;
+    text-decoration: none;
+    border: 1px rgba(0, 0, 0, 0.664) solid;
+    padding: 10px;
+    flex: 1;
+ }
+ .main > div {
+    display: flex;
+    flex: 1;
+ }
+ .navbar > a:hover {
+    background: #126;
+    color:#adf;
+    transition:all 0.3s linear;
+ }
