@@ -35,10 +35,6 @@ let py2;
 // Background (used to draw trail)
 let pg;
 
-
-let p1;
-let pa = 0;
-
 function getWindowWidth(element) {
 	return element.clientWidth;
 }
@@ -76,55 +72,47 @@ function windowResized() {
 	console.log("That:" + getWindowHeight(flex_canvas));
 }
 
-  function draw() {
+function draw() {
 	image(pg, 0, 0);
 
-	calculations();
-	sketchPendulum();
-	sketchTrail();
+	console.log(mousePressed());
+
+	if (myMouseMoved()) {
+
+		let a = atan2(mouseY - height / 2, mouseX - width / 2);
+		console.log(a);
+
+		a1_v = 0;
+		a2_v = 0;
+		a1_a = 0;
+		a2_a = 0;
+
+		if (closerPendulum()){
+			a1 += a;
+			calculations();
+			sketchPendulum();
+		} else {
+			a2 += a;
+			calculations();
+			sketchPendulum();
+		}
+
+	} else {
+		calculations();
+		sketchPendulum();
+		sketchTrail();
+	}
 
 	px2 = x2;
 	py2 = y2;
 }
 
-function mouseClicked() {
-	let d1 = distanceToPendulum(x1, y1);
-	let d2 = distanceToPendulum(x2, y2);
-
-	if (d1 > d2) {
-		p1 = true;
-	}
+function mousePressed() {
+	return true;
 }
 
-function mouseDragged() {
-	noLoop(); 
-	
-	let a = atan2(mouseY - height / 2, mouseX - width / 2);
-
-	let j = a - pa;
-	if (p1){
-		a1 += j;
-		a1_v = 0;
-		a2_v = 0;
-		a1_a = 0;
-		a2_a = 0;
-		//calculations();
-		//sketchPendulum();
-	} else {
-		a2 += j;
-		a1_v = 0;
-		a2_v = 0;
-		a1_a = 0;
-		a2_a = 0;
-		//calculations();
-		//sketchPendulum();
-	}
-	pa = a
-	console.log(j);
-}
-
-function mouseReleased() {
-	loop();
+function myMouseMoved() {
+	return pmouseX < mouseX || pmouseY < mouseY; 
 }
 
 function distanceToPendulum(x, y) {
@@ -132,6 +120,10 @@ function distanceToPendulum(x, y) {
 	let deltaY = mouseY - (y + cy);
 
 	return sqrt(sq(deltaX) + sq(deltaY));
+}
+
+function closerPendulum() {
+	return distanceToPendulum(x1, y1) > distanceToPendulum(x2, y2);
 }
 
 function sketchPendulum() {
@@ -209,4 +201,6 @@ function calculations() {
 
 	x2 = x1 + r2 * sin(a2);
 	y2 = y1 + r2 * cos(a2);
+	//console.log("x1: " + x1);
+	//console.log("x2: " + x2);
 }
